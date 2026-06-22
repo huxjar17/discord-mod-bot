@@ -1,0 +1,5 @@
+[build]
+rootDirectory = "bot"
+
+[deploy]
+startCommand = "node index.js"
