@@ -1,37 +1,33 @@
-const RAILWAY_URL = 'discord-mod-bot-production-7c97.up.railway.app';
+const RAILWAY_URL = 'https://discord-mod-bot-production-7c97.up.railway.app';
 
-import api from '../api.js';
+const fetchGuilds = async (apiKey) => {
+  const response = await fetch(`${RAILWAY_URL}/guilds`, {
+    headers: { 'Authorization': apiKey }
+  });
+  if (!response.ok) throw new Error('Invalid API Key');
+  return response.json();
+};
 
-async function req(path, opts = {}) {
-  const res = await fetch(`${RAILWAY_URL}${path}`, {
-    ...opts,
+const fetchChannels = async (guildId, apiKey) => {
+  const response = await fetch(`${RAILWAY_URL}/guilds/${guildId}/channels`, {
+    headers: { 'Authorization': apiKey }
+  });
+  return response.json();
+};
+
+const sendEmbed = async (guildId, channelId, embedData, apiKey) => {
+  const response = await fetch(`${RAILWAY_URL}/embed`, {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': getKey(),
-      ...(opts.headers || {}),
+      'Authorization': apiKey
     },
-    body: opts.body ? JSON.stringify(opts.body) : undefined,
+    body: JSON.stringify({ guildId, channelId, ...embedData })
   });
-  if (!res.ok) throw new Error(`API ${res.status}`);
-  return res.json();
-}
-
-export const api = {
-  getGuilds:       ()           => req('/guilds'),
-  getSettings:     (id)         => req(`/guilds/${id}/settings`),
-  patchSettings:   (id, body)   => req(`/guilds/${id}/settings`, { method:'PATCH', body }),
-  getModLog:       (id)         => req(`/guilds/${id}/modlog`),
-  getCmdLog:       (id)         => req(`/guilds/${id}/cmdlog`),
-  getAllCmdLog:     ()           => req('/cmdlog/all'),
-  getWarns:        (id)         => req(`/guilds/${id}/warns`),
-  deleteWarn:      (g, u, w)    => req(`/guilds/${g}/warns/${u}/${w}`, { method:'DELETE' }),
-  getStats:        (id)         => req(`/guilds/${id}/stats`),
-  getTickets:      (id)         => req(`/guilds/${id}/tickets`),
-  getBlacklist:    (id)         => req(`/guilds/${id}/blacklist`),
-  addBlacklist:    (id, body)   => req(`/guilds/${id}/blacklist`, { method:'POST', body }),
-  removeBlacklist: (id, userId) => req(`/guilds/${id}/blacklist/${userId}`, { method:'DELETE' }),
-  getNotes:        (id)         => req(`/guilds/${id}/notes`),
+  return response.json();
 };
+
+// This bundles them perfectly into a single object for Overview.jsx
 const api = {
   fetchGuilds,
   fetchChannels,
