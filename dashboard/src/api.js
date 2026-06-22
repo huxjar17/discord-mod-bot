@@ -3,7 +3,7 @@ const RAILWAY_URL = 'discord-mod-bot-production-7c97.up.railway.app';
 function getKey() { return sessionStorage.getItem('apiKey') || ''; }
 
 async function req(path, opts = {}) {
-  const res = await fetch(`${RAILWAY_URL}/api${path}`, {
+  const res = await fetch(`${RAILWAY_URL}${path}`, {
     ...opts,
     headers: {
       'Content-Type': 'application/json',
