@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { api } from '../api.js';
+import api from '../api.js';
 
 const COLORS = { BAN:'#ED4245',KICK:'#E67E22',MUTE:'#FEE75C',WARN:'#5865F2',UNBAN:'#57F287',UNMUTE:'#57F287',NOTE:'#EB459E',DM:'#9B59B6',PURGE:'#7F8C8D',LOCKDOWN:'#FF0000',BLACKLIST_ADD:'#FF00FF',AUTO_BAN:'#C0392B',AUTO_KICK:'#D35400',AUTO_MUTE:'#F39C12' };
 
