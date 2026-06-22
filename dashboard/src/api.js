@@ -32,3 +32,10 @@ export const api = {
   removeBlacklist: (id, userId) => req(`/guilds/${id}/blacklist/${userId}`, { method:'DELETE' }),
   getNotes:        (id)         => req(`/guilds/${id}/notes`),
 };
+const api = {
+  fetchGuilds,
+  fetchChannels,
+  sendEmbed
+};
+
+export default api;
