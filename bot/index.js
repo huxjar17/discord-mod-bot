@@ -929,7 +929,7 @@ client.once('ready', async () => {
 // ─────────────────────────────────
 function startAPI() {
   const app=express();
-  app.use(cors()); app.use(express.json());
+  app.use(cors({ origin: '*' })); app.use(express.json());
   const KEY=process.env.DASHBOARD_API_KEY||'changeme';
   app.use((req,res,next)=>{ if(req.headers['x-api-key']!==KEY) return res.status(401).json({error:'Unauthorized'}); next(); });
 
