@@ -1,0 +1,563 @@
+{
+  "warns": {
+    "1511917151768805437": {
+      "1057096556114886897": [
+        {
+          "id": "N1IUPEPL",
+          "reason": "test",
+          "modId": "1057096556114886897",
+          "timestamp": 1782064097460,
+          "removed": true
+        }
+      ]
+    },
+    "1516989598692016128": {
+      "1057096556114886897": [
+        {
+          "id": "WUGK39JX",
+          "reason": "test",
+          "modId": "1057096556114886897",
+          "timestamp": 1782066051886,
+          "removed": false
+        }
+      ]
+    },
+    "1513020928672534618": {
+      "1167991408800583692": [
+        {
+          "id": "JDHVQDRI",
+          "reason": "t",
+          "modId": "1057096556114886897",
+          "timestamp": 1782074895801,
+          "removed": true
+        }
+      ],
+      "1271886071202058392": [
+        {
+          "id": "QWXTPQ1O",
+          "reason": "t",
+          "modId": "1057096556114886897",
+          "timestamp": 1782074903434,
+          "removed": true
+        }
+      ]
+    },
+    "1509318186661711974": {
+      "1416484710032605286": [
+        {
+          "id": "PIX7I0XW",
+          "reason": "Test",
+          "modId": "1057096556114886897",
+          "timestamp": 1782076742029,
+          "removed": false
+        }
+      ]
+    }
+  },
+  "modlog": [
+    {
+      "id": "J412BJPW",
+      "guildId": "1511917151768805437",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "targetId": "1057096556114886897",
+      "reason": "YESSS",
+      "extra": {},
+      "timestamp": 1782063874831
+    },
+    {
+      "id": "8AUANDTU",
+      "guildId": "1511917151768805437",
+      "action": "WARN",
+      "modId": "1057096556114886897",
+      "targetId": "1057096556114886897",
+      "reason": "test",
+      "extra": {
+        "warnId": "N1IUPEPL"
+      },
+      "timestamp": 1782064097461
+    },
+    {
+      "id": "G67S97AZ",
+      "guildId": "1516989598692016128",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "targetId": "1266883263079776317",
+      "reason": "Please complete the moderator application withing Gorilla Fun. failure to will result in dishcargement. You have until `5pm CST`",
+      "extra": {},
+      "timestamp": 1782065496118
+    },
+    {
+      "id": "7NYBPBOL",
+      "guildId": "1516989598692016128",
+      "action": "WARN",
+      "modId": "1057096556114886897",
+      "targetId": "1057096556114886897",
+      "reason": "test",
+      "extra": {
+        "warnId": "WUGK39JX"
+      },
+      "timestamp": 1782066051887
+    },
+    {
+      "id": "EYYYXENA",
+      "guildId": "1516989598692016128",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "targetId": "1057096556114886897",
+      "reason": "Test",
+      "extra": {},
+      "timestamp": 1782067742418
+    },
+    {
+      "id": "55BD1DXC",
+      "guildId": "1513020928672534618",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "targetId": "1482376756110426356",
+      "reason": "Test",
+      "extra": {},
+      "timestamp": 1782068177895
+    },
+    {
+      "id": "FUFRFGB8",
+      "guildId": "1513020928672534618",
+      "action": "LOCK",
+      "modId": "1057096556114886897",
+      "targetId": "1513212971554308127",
+      "reason": "Channel locked by moderator",
+      "extra": {},
+      "timestamp": 1782068271103
+    },
+    {
+      "id": "41141W0Z",
+      "guildId": "1513020928672534618",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "targetId": "1482376756110426356",
+      "reason": "You have been promoted and taken off of probation. Reason: passed SIT.",
+      "extra": {},
+      "timestamp": 1782068975478
+    },
+    {
+      "id": "T4STSEY0",
+      "guildId": "1516989598692016128",
+      "action": "PURGE",
+      "modId": "1057096556114886897",
+      "targetId": "ALL",
+      "reason": "Purged 40 messages",
+      "extra": {},
+      "timestamp": 1782069559346
+    },
+    {
+      "id": "NV88GD2V",
+      "guildId": "1516989598692016128",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "targetId": "1209344714457874465",
+      "reason": "Testing tetsing 1,2,3",
+      "extra": {},
+      "timestamp": 1782070054220
+    },
+    {
+      "id": "VTGL20T9",
+      "guildId": "1516989598692016128",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "targetId": "1057096556114886897",
+      "reason": "test",
+      "extra": {},
+      "timestamp": 1782070821237
+    },
+    {
+      "id": "QVB26OFD",
+      "guildId": "1515404478587601047",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "targetId": "1300070786371031152",
+      "reason": "uwqinuhbfyi jiqwbfyuiqwbgiuywebgiywhgbyu3awhbgeuyqbwgeuyqwBGUYHEGBEIHGWBWUEHGBERIUYHBNREWUIYHEWRAQIUHOGYAYUIWJGUIEH6873HGY4YUIH4BYU34BGRHUGBEIUHB43E",
+      "extra": {},
+      "timestamp": 1782071910762
+    },
+    {
+      "id": "B2XFXSLK",
+      "guildId": "1515404478587601047",
+      "action": "LOCKDOWN",
+      "modId": "1057096556114886897",
+      "targetId": "1515404478587601047",
+      "reason": "Server lockdown",
+      "extra": {},
+      "timestamp": 1782071948026
+    },
+    {
+      "id": "FKKPXM50",
+      "guildId": "1516989598692016128",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "targetId": "1500251118582632498",
+      "reason": "Teest",
+      "extra": {},
+      "timestamp": 1782072792368
+    },
+    {
+      "id": "66JPOB53",
+      "guildId": "1516989598692016128",
+      "action": "AUTO_MUTE",
+      "modId": "1518297557904654598",
+      "targetId": "1057096556114886897",
+      "reason": "AutoMod: spam",
+      "extra": {},
+      "timestamp": 1782073452872
+    },
+    {
+      "id": "4VFTT3VN",
+      "guildId": "1516989598692016128",
+      "action": "AUTO_MUTE",
+      "modId": "1518297557904654598",
+      "targetId": "1057096556114886897",
+      "reason": "AutoMod: spam",
+      "extra": {},
+      "timestamp": 1782073453237
+    },
+    {
+      "id": "RUCVC1AY",
+      "guildId": "1516989598692016128",
+      "action": "AUTO_MUTE",
+      "modId": "1518297557904654598",
+      "targetId": "1057096556114886897",
+      "reason": "AutoMod: spam",
+      "extra": {},
+      "timestamp": 1782073453551
+    },
+    {
+      "id": "5DOXVKRO",
+      "guildId": "1516989598692016128",
+      "action": "AUTO_MUTE",
+      "modId": "1518297557904654598",
+      "targetId": "1057096556114886897",
+      "reason": "AutoMod: spam",
+      "extra": {},
+      "timestamp": 1782073453908
+    },
+    {
+      "id": "FZ904UFS",
+      "guildId": "1513020928672534618",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "targetId": "1271886071202058392",
+      "reason": "You have been suspended from the staff team",
+      "extra": {},
+      "timestamp": 1782074798356
+    },
+    {
+      "id": "2GB1B6OV",
+      "guildId": "1513020928672534618",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "targetId": "1167991408800583692",
+      "reason": "You have been suspended form the staff team.",
+      "extra": {},
+      "timestamp": 1782074827576
+    },
+    {
+      "id": "RUJEIHRP",
+      "guildId": "1513020928672534618",
+      "action": "WARN",
+      "modId": "1057096556114886897",
+      "targetId": "1167991408800583692",
+      "reason": "t",
+      "extra": {
+        "warnId": "JDHVQDRI"
+      },
+      "timestamp": 1782074895801
+    },
+    {
+      "id": "XN988TPT",
+      "guildId": "1513020928672534618",
+      "action": "WARN",
+      "modId": "1057096556114886897",
+      "targetId": "1271886071202058392",
+      "reason": "t",
+      "extra": {
+        "warnId": "QWXTPQ1O"
+      },
+      "timestamp": 1782074903434
+    },
+    {
+      "id": "1S38XK30",
+      "guildId": "1513020928672534618",
+      "action": "DM",
+      "modId": "1167991408800583692",
+      "targetId": "1057096556114886897",
+      "reason": "Test",
+      "extra": {},
+      "timestamp": 1782075599140
+    },
+    {
+      "id": "V303UPJA",
+      "guildId": "1509318186661711974",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "targetId": "1416484710032605286",
+      "reason": "Liek this",
+      "extra": {},
+      "timestamp": 1782076550654
+    },
+    {
+      "id": "Y971INL2",
+      "guildId": "1509318186661711974",
+      "action": "WARN",
+      "modId": "1057096556114886897",
+      "targetId": "1416484710032605286",
+      "reason": "Test",
+      "extra": {
+        "warnId": "PIX7I0XW"
+      },
+      "timestamp": 1782076742030
+    },
+    {
+      "id": "IDQ2C8PE",
+      "guildId": "1509318186661711974",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "targetId": "1057096556114886897",
+      "reason": "test",
+      "extra": {},
+      "timestamp": 1782084402999
+    },
+    {
+      "id": "MSNPRH6U",
+      "guildId": "1513020928672534618",
+      "action": "DM",
+      "modId": "488132273518936084",
+      "targetId": "1057096556114886897",
+      "reason": "π",
+      "extra": {},
+      "timestamp": 1782084560924
+    },
+    {
+      "id": "QDOHJS1W",
+      "guildId": "1516989598692016128",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "targetId": "1057096556114886897",
+      "reason": "test",
+      "extra": {},
+      "timestamp": 1782085008485
+    },
+    {
+      "id": "MNRAJIHE",
+      "guildId": "1516989598692016128",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "targetId": "1057096556114886897",
+      "reason": "Test",
+      "extra": {},
+      "timestamp": 1782086565576
+    },
+    {
+      "id": "5H3HYAG6",
+      "guildId": "1515404478587601047",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "targetId": "1462524067591622923",
+      "reason": "Wsg my bro",
+      "extra": {},
+      "timestamp": 1782086619006
+    },
+    {
+      "id": "BH77D98Q",
+      "guildId": "1513020928672534618",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "targetId": "1057096556114886897",
+      "reason": "test",
+      "extra": {},
+      "timestamp": 1782091059153
+    },
+    {
+      "id": "1DL1J6L1",
+      "guildId": "1516989598692016128",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "targetId": "1057096556114886897",
+      "reason": "test",
+      "extra": {},
+      "timestamp": 1782093150691
+    },
+    {
+      "id": "NV8J070P",
+      "guildId": "1516989598692016128",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "targetId": "1057096556114886897",
+      "reason": "t",
+      "timestamp": 1782094040376
+    },
+    {
+      "id": "JJI4X67M",
+      "guildId": "1516989598692016128",
+      "guildName": "Gorilla fun",
+      "action": "DM",
+      "modId": "1057096556114886897",
+      "modTag": "huxjar17",
+      "targetId": "1057096556114886897",
+      "targetTag": "huxjar17",
+      "reason": "test",
+      "extra": {
+        "targetTag": "huxjar17",
+        "modTag": "huxjar17",
+        "dmMessage": "test"
+      },
+      "timestamp": 1782160692237
+    },
+    {
+      "id": "0XXGVJG8",
+      "guildId": "1516989598692016128",
+      "guildName": "Gorilla fun",
+      "action": "AUTO_MUTE",
+      "modId": "1518297557904654598",
+      "modTag": "Moderation#2900",
+      "targetId": "1500251118582632498",
+      "targetTag": "1500251118582632498",
+      "reason": "Spam",
+      "extra": {},
+      "timestamp": 1782161016021
+    }
+  ],
+  "automod": {},
+  "settings": {
+    "1511917151768805437": {
+      "logChannel": "1512834932710572073",
+      "automod": {
+        "antispam": false,
+        "badwords": false,
+        "antiraid": false,
+        "antiinvite": false,
+        "massmention": false,
+        "caps": false
+      },
+      "badWordList": [],
+      "escalation": {
+        "muteAt": 3,
+        "kickAt": 0,
+        "banAt": 5
+      }
+    },
+    "1516989598692016128": {
+      "logChannel": "1518078150561501184",
+      "automod": {
+        "antispam": true,
+        "badwords": true,
+        "antiraid": true,
+        "antiinvite": true,
+        "massmention": true,
+        "caps": true
+      },
+      "badWordList": [
+        "bitch",
+        "fuck"
+      ],
+      "escalation": {
+        "muteAt": 3,
+        "kickAt": 0,
+        "banAt": 5
+      },
+      "ticketCategory": "1518246370312458332"
+    },
+    "1513020928672534618": {
+      "logChannel": "1513222161974825262",
+      "automod": {
+        "antispam": false,
+        "badwords": false,
+        "antiraid": false,
+        "antiinvite": false,
+        "massmention": false,
+        "caps": false
+      },
+      "badWordList": [],
+      "escalation": {
+        "muteAt": 3,
+        "kickAt": 0,
+        "banAt": 5
+      }
+    },
+    "1515404478587601047": {
+      "logChannel": "1515449455162298408",
+      "automod": {
+        "antispam": false,
+        "badwords": false,
+        "antiraid": false,
+        "antiinvite": false,
+        "massmention": false,
+        "caps": false
+      },
+      "badWordList": [],
+      "escalation": {
+        "muteAt": 3,
+        "kickAt": 0,
+        "banAt": 5
+      }
+    },
+    "1509318186661711974": {
+      "logChannel": "1516243937822507129",
+      "ticketCategory": null,
+      "ticketLogChannel": null,
+      "supportRoles": [],
+      "automod": {
+        "antispam": false,
+        "badwords": false,
+        "antiraid": false,
+        "antiinvite": false,
+        "massmention": false,
+        "caps": false
+      },
+      "badWordList": [],
+      "escalation": {
+        "muteAt": 3,
+        "kickAt": 0,
+        "banAt": 5
+      },
+      "commandPerms": {},
+      "lockedChannels": []
+    }
+  },
+  "tickets": {},
+  "ticketCounter": {},
+  "levels": {},
+  "blacklist": [],
+  "cmdlog": [
+    {
+      "id": "KGT9DU6H",
+      "command": "embed",
+      "userId": "1057096556114886897",
+      "userTag": "huxjar17",
+      "guildId": "1516989598692016128",
+      "guildName": "Gorilla fun",
+      "channelId": "1518243699702628514",
+      "channelName": "general",
+      "details": {
+        "title": "t",
+        "channel": "general"
+      },
+      "timestamp": 1782135034529
+    },
+    {
+      "id": "2IKCGMC1",
+      "command": "dm",
+      "userId": "1057096556114886897",
+      "userTag": "huxjar17",
+      "guildId": "1516989598692016128",
+      "guildName": "Gorilla fun",
+      "channelId": "1518243699702628514",
+      "channelName": "general",
+      "details": {
+        "target": "huxjar17",
+        "targetId": "1057096556114886897",
+        "message": "test"
+      },
+      "timestamp": 1782160692239
+    }
+  ],
+  "notes": {}
+}
