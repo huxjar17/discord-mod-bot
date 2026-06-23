@@ -1,21 +1,20 @@
-cat > ~/Desktop/discord-mod-bot/dashboard/src/App.jsx << 'EOF'
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar.jsx';
-import Overview   from './pages/Overview.jsx';
-import ModLog     from './pages/ModLog.jsx';
-import CmdLog     from './pages/CmdLog.jsx';
-import Warnings   from './pages/Warnings.jsx';
-import Blacklist  from './pages/Blacklist.jsx';
-import AutoMod    from './pages/AutoMod.jsx';
-import Session    from './pages/Session.jsx';
+import Overview from './pages/Overview.jsx';
+import ModLog from './pages/ModLog.jsx';
+import CmdLog from './pages/CmdLog.jsx';
+import Warnings from './pages/Warnings.jsx';
+import Blacklist from './pages/Blacklist.jsx';
+import AutoMod from './pages/AutoMod.jsx';
+import Session from './pages/Session.jsx';
 import SettingsPage from './pages/Settings.jsx';
 import { api } from './api.js';
 
 export default function App() {
   const [guilds, setGuilds] = useState([]);
-  const [guild,  setGuild]  = useState(null);
-  const [error,  setError]  = useState(false);
+  const [guild, setGuild] = useState(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     api.getGuilds()
@@ -42,15 +41,15 @@ export default function App() {
         <main style={{ flex:1, overflowY:'auto', padding:'28px 32px', background:'var(--bg)' }}>
           {guild ? (
             <Routes>
-              <Route path="/"          element={<Navigate to="/overview" />} />
-              <Route path="/overview"  element={<Overview  guild={guild} />} />
-              <Route path="/modlog"    element={<ModLog    guild={guild} />} />
-              <Route path="/cmdlog"    element={<CmdLog    guild={guild} />} />
-              <Route path="/warnings"  element={<Warnings  guild={guild} />} />
+              <Route path="/" element={<Navigate to="/overview" />} />
+              <Route path="/overview" element={<Overview guild={guild} />} />
+              <Route path="/modlog" element={<ModLog guild={guild} />} />
+              <Route path="/cmdlog" element={<CmdLog guild={guild} />} />
+              <Route path="/warnings" element={<Warnings guild={guild} />} />
               <Route path="/blacklist" element={<Blacklist guild={guild} />} />
-              <Route path="/automod"   element={<AutoMod   guild={guild} />} />
-              <Route path="/session"   element={<Session   guild={guild} />} />
-              <Route path="/settings"  element={<SettingsPage guild={guild} />} />
+              <Route path="/automod" element={<AutoMod guild={guild} />} />
+              <Route path="/session" element={<Session guild={guild} />} />
+              <Route path="/settings" element={<SettingsPage guild={guild} />} />
             </Routes>
           ) : (
             <div style={{ display:'flex', alignItems:'center', justifyContent:'center', height:'100%' }}>
@@ -62,4 +61,3 @@ export default function App() {
     </BrowserRouter>
   );
 }
-EOF
