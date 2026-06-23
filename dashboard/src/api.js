@@ -1,13 +1,11 @@
-const RAILWAY_URL = import.meta.env.VITE_API_URL || 'https://discord-mod-bot-production-7c97.up.railway.app';
-
-function getKey() { return sessionStorage.getItem('apiKey') || ''; }
+cat > ~/Desktop/discord-mod-bot/dashboard/src/api.js << 'EOF'
+const RAILWAY_URL = 'https://discord-mod-bot-production-7c97.up.railway.app';
 
 async function req(path, opts = {}) {
   const res = await fetch(`${RAILWAY_URL}/api${path}`, {
     ...opts,
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': getKey(),
       ...(opts.headers || {}),
     },
     body: opts.body ? JSON.stringify(opts.body) : undefined,
@@ -32,3 +30,4 @@ export const api = {
   removeBlacklist: (id, userId) => req(`/guilds/${id}/blacklist/${userId}`, { method:'DELETE' }),
   getNotes:        (id)         => req(`/guilds/${id}/notes`),
 };
+EOF

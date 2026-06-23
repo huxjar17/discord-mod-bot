@@ -1,7 +1,7 @@
+cat > ~/Desktop/discord-mod-bot/dashboard/src/App.jsx << 'EOF'
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar.jsx';
-import Login   from './pages/Login.jsx';
 import Overview   from './pages/Overview.jsx';
 import ModLog     from './pages/ModLog.jsx';
 import CmdLog     from './pages/CmdLog.jsx';
@@ -13,18 +13,27 @@ import SettingsPage from './pages/Settings.jsx';
 import { api } from './api.js';
 
 export default function App() {
-  const [authed, setAuthed]           = useState(!!sessionStorage.getItem('authed'));
-  const [guilds, setGuilds]           = useState([]);
-  const [guild,  setGuild]            = useState(null);
+  const [guilds, setGuilds] = useState([]);
+  const [guild,  setGuild]  = useState(null);
+  const [error,  setError]  = useState(false);
 
   useEffect(() => {
-    if (!authed) return;
     api.getGuilds()
       .then(g => { setGuilds(g); if (g.length) setGuild(g[0]); })
-      .catch(() => { sessionStorage.clear(); setAuthed(false); });
-  }, [authed]);
+      .catch(() => setError(true));
+  }, []);
 
-  if (!authed) return <Login onLogin={() => { sessionStorage.setItem('authed','1'); setAuthed(true); }} />;
+  if (error) return (
+    <div style={{ minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', background:'var(--bg)', flexDirection:'column', gap:12 }}>
+      <div style={{ fontSize:48 }}>❌</div>
+      <h1 style={{ color:'var(--red)', fontSize:20, fontWeight:700 }}>Connection Error</h1>
+      <p style={{ color:'var(--t2)' }}>Could not connect to the bot API on Railway.</p>
+      <button onClick={()=>{ setError(false); api.getGuilds().then(g=>{setGuilds(g);if(g.length)setGuild(g[0]);}).catch(()=>setError(true)); }}
+        style={{ background:'var(--accent)', color:'#fff', border:'none', borderRadius:8, padding:'10px 24px', fontWeight:700, cursor:'pointer', marginTop:8 }}>
+        Retry Connection
+      </button>
+    </div>
+  );
 
   return (
     <BrowserRouter>
@@ -44,12 +53,13 @@ export default function App() {
               <Route path="/settings"  element={<SettingsPage guild={guild} />} />
             </Routes>
           ) : (
-            <p style={{ color:'var(--t3)', textAlign:'center', marginTop:80 }}>
-              No servers found. Make sure the bot is in at least one server.
-            </p>
+            <div style={{ display:'flex', alignItems:'center', justifyContent:'center', height:'100%' }}>
+              <p style={{ color:'var(--t3)' }}>Loading servers…</p>
+            </div>
           )}
         </main>
       </div>
     </BrowserRouter>
   );
 }
+EOF
