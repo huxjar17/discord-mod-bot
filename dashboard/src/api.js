@@ -1,4 +1,4 @@
-const RAILWAY_URL = 'https://discord-mod-bot-production-7c97.up.railway.app';
+const RAILWAY_URL = import.meta.env.VITE_API_URL || 'https://discord-mod-bot-production-7c97.up.railway.app';
 
 function getKey() { return sessionStorage.getItem('apiKey') || ''; }
 
