@@ -1,51 +1,75 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import api from '../api.js';
 
-const COLORS = { BAN:'#ED4245',KICK:'#E67E22',MUTE:'#FEE75C',WARN:'#5865F2',UNBAN:'#57F287',UNMUTE:'#57F287',NOTE:'#EB459E',DM:'#9B59B6',PURGE:'#7F8C8D',LOCKDOWN:'#FF0000',BLACKLIST_ADD:'#FF00FF',AUTO_BAN:'#C0392B',AUTO_KICK:'#D35400',AUTO_MUTE:'#F39C12' };
+const COLORS = {
+  BAN: '#ED4245',
+  KICK: '#E67E22',
+  MUTE: '#FEE75C',
+  WARN: '#5865F2',
+  UNBAN: '#57F287',
+  UNMUTE: '#57F287',
+  NOTE: '#95A5A6'
+};
 
-function Card({ label, value, color='var(--t1)', sub }) {
-  return (
-    <div style={{ background:'var(--bg-card)', border:'1px solid var(--border)', borderRadius:'var(--r)', padding:'20px 22px' }}>
-      <p style={{ color:'var(--t3)', fontSize:11, fontWeight:700, textTransform:'uppercase', letterSpacing:1, marginBottom:6 }}>{label}</p>
-      <p style={{ fontSize:30, fontWeight:800, color }}>{value ?? '—'}</p>
-      {sub && <p style={{ color:'var(--t3)', fontSize:11, marginTop:4 }}>{sub}</p>}
-    </div>
-  );
-}
+export default function Overview() {
+  const [guilds, setGuilds] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({ totalCases: 0, activeMutes: 0, activeBans: 0 });
 
-export default function Overview({ guild }) {
-  const [stats, setStats] = useState(null);
-  useEffect(() => { api.getStats(guild.id).then(setStats).catch(()=>{}); }, [guild.id]);
-  const chart = stats ? Object.entries(stats.actionCounts).map(([k,v])=>({name:k,count:v})) : [];
+  useEffect(() => {
+    const loadDashboardData = async () => {
+      try {
+        // Fetching directly from Railway without utilizing api.js imports
+        const response = await fetch('https://discord-mod-bot-production-7c97.up.railway.app/guilds');
+        if (!response.ok) throw new Error('Failed to load servers');
+        const data = await response.json();
+        setGuilds(data);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        setLoading(false);
+      }
+    };
+    loadDashboardData();
+  }, []);
 
-  return (
-    <div>
-      <h1 style={{ fontSize:22, fontWeight:800, marginBottom:4 }}>Overview</h1>
-      <p style={{ color:'var(--t2)', marginBottom:24 }}>{guild.name} · {guild.memberCount?.toLocaleString()} members</p>
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(200px,1fr))', gap:14, marginBottom:28 }}>
-        <Card label="Total Mod Actions" value={stats?.totalActions}   color="var(--t1)"    />
-        <Card label="Total Bans"        value={stats?.actionCounts?.BAN??0}  color="var(--red)"   />
-        <Card label="Total Kicks"       value={stats?.actionCounts?.KICK??0} color="var(--orange)"/>
-        <Card label="Total Warns"       value={stats?.actionCounts?.WARN??0} color="var(--yellow)"/>
-        <Card label="Commands Run"      value={stats?.cmdCount}        color="var(--accent)" />
-        <Card label="DMs Sent"          value={stats?.actionCounts?.DM??0}   color="var(--purple)" />
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', color: '#fff', backgroundColor: '#0f172a' }}>
+        <h2>Loading your Discord Dashboard...</h2>
       </div>
-      {chart.length > 0 && (
-        <div style={{ background:'var(--bg-card)', border:'1px solid var(--border)', borderRadius:'var(--r)', padding:24 }}>
-          <h2 style={{ fontSize:14, fontWeight:700, marginBottom:18 }}>Actions Breakdown</h2>
-          <ResponsiveContainer width="100%" height={240}>
-            <BarChart data={chart} margin={{left:-20}}>
-              <XAxis dataKey="name" tick={{fill:'var(--t2)',fontSize:11}} />
-              <YAxis tick={{fill:'var(--t2)',fontSize:11}} />
-              <Tooltip contentStyle={{background:'var(--bg-card)',border:'1px solid var(--border)',borderRadius:8}} />
-              <Bar dataKey="count" radius={[4,4,0,0]}>
-                {chart.map(e=><Cell key={e.name} fill={COLORS[e.name]||'#5865F2'} />)}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+    );
+  }
+
+  return (
+    <div style={{ padding: '24px', color: '#fff', backgroundColor: '#0f172a', minHeight: '100vh' }}>
+      <h1 style={{ fontSize: '28px', marginBottom: '24px', fontWeight: 'bold' }}>Dashboard Overview</h1>
+      
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px', marginBottom: '32px' }}>
+        <div style={{ backgroundColor: '#1e293b', padding: '20px', borderRadius: '12px', border: '1px solid #334155' }}>
+          <h3 style={{ color: '#94a3b8', fontSize: '14px', textTransform: 'uppercase' }}>Connected Servers</h3>
+          <p style={{ fontSize: '32px', fontWeight: 'bold', marginTop: '8px' }}>{guilds.length}</p>
         </div>
-      )}
+      </div>
+
+      <h2 style={{ fontSize: '20px', marginBottom: '16px', fontWeight: 'semibold' }}>Your Servers</h2>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
+        {guilds.map((guild) => (
+          <div key={guild.id} style={{ backgroundColor: '#1e293b', padding: '20px', borderRadius: '12px', border: '1px solid #334155', display: 'flex', alignItems: 'center', gap: '16px' }}>
+            {guild.icon ? (
+              <img src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`} alt={guild.name} style={{ width: '48px', height: '48px', borderRadius: '50%' }} />
+            ) : (
+              <div style={{ width: '48px', height: '48px', borderRadius: '50%', backgroundColor: '#5865F2', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
+                {guild.name.charAt(0)}
+              </div>
+            )}
+            <div>
+              <h3 style={{ fontSize: '18px', fontWeight: 'bold' }}>{guild.name}</h3>
+              <p style={{ color: '#94a3b8', fontSize: '14px' }}>ID: {guild.id}</p>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
