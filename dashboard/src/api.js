@@ -1,5 +1,6 @@
-cat > ~/Desktop/discord-mod-bot/dashboard/src/api.js << 'EOF'
 const RAILWAY_URL = 'https://discord-mod-bot-production-7c97.up.railway.app';
+
+function getKey() { return sessionStorage.getItem('apiKey') || ''; }
 
 async function req(path, opts = {}) {
   const res = await fetch(`${RAILWAY_URL}/api${path}`, {
@@ -30,4 +31,3 @@ export const api = {
   removeBlacklist: (id, userId) => req(`/guilds/${id}/blacklist/${userId}`, { method:'DELETE' }),
   getNotes:        (id)         => req(`/guilds/${id}/notes`),
 };
-EOF
