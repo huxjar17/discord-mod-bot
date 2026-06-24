@@ -973,4 +973,4 @@ function startAPI() {
   app.listen(PORT,()=>console.log(`📊 Dashboard API on :${PORT}`));
 }
 
-client.login(process.env.BOT_TOKEN);# force redeploy Tue Jun 23 17:08:54 PDT 2026
+client.login(process.env.BOT_TOKEN);
