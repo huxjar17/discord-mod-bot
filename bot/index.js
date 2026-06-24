@@ -62,9 +62,11 @@ function gs(guildId) {
     supportRoles:[], automod:{antispam:false,badwords:false,antiraid:false,antiinvite:false,massmention:false,caps:false},
     badWordList:[], escalation:{muteAt:3,kickAt:0,banAt:5},
     commandPerms:{}, lockedChannels:[],
+    appLinks:{ staff:'', media:'', discord_appeal:'', ingame_appeal:'' },
     session:{ channelId:null, messageId:null, serverName:'', owner:'', joinCode:'',
               maxPlayers:40, players:0, queue:0, staff:0, joinLink:'' },
   };
+  if (!db.settings[guildId].appLinks) db.settings[guildId].appLinks = { staff:'', media:'', discord_appeal:'', ingame_appeal:'' };
   return db.settings[guildId];
 }
 
@@ -88,45 +90,32 @@ function modEmbed(action, mod, target, reason, extra=[]) {
     ).setTimestamp();
 }
 
-// Enhanced log that captures guild name, mod tag, target tag, and extra fields like DM message
 function logAction(guildId, action, modId, targetId, reason, extra={}, interaction=null) {
   const guild = client.guilds.cache.get(guildId);
   const modMember = guild?.members.cache.get(modId);
   const entry = {
-    id: uid(),
-    guildId,
-    guildName: guild?.name || 'Unknown Server',
-    action,
-    modId,
-    modTag: modMember?.user?.tag || extra.modTag || 'Unknown',
-    targetId,
-    targetTag: extra.targetTag || targetId,
-    reason,
-    extra,
-    timestamp: Date.now(),
+    id: uid(), guildId, guildName: guild?.name || 'Unknown Server',
+    action, modId, modTag: modMember?.user?.tag || extra.modTag || 'Unknown',
+    targetId, targetTag: extra.targetTag || targetId,
+    reason, extra, timestamp: Date.now(),
   };
   db.modlog.push(entry);
   save();
   return entry;
 }
 
-// Log every command run — who, what server, what command, what options
 function logCmd(interaction, commandName, details={}) {
   if (!db.cmdlog) db.cmdlog = [];
   const guild = interaction?.guild;
   db.cmdlog.push({
-    id: uid(),
-    command: commandName,
+    id: uid(), command: commandName,
     userId: interaction?.user?.id || interaction?.member?.id,
     userTag: interaction?.user?.tag || interaction?.member?.user?.tag || 'Unknown',
-    guildId: guild?.id || null,
-    guildName: guild?.name || 'DM',
+    guildId: guild?.id || null, guildName: guild?.name || 'DM',
     channelId: interaction?.channel?.id || null,
     channelName: interaction?.channel?.name || 'Unknown',
-    details, // any important options (reason, target, message content etc.)
-    timestamp: Date.now(),
+    details, timestamp: Date.now(),
   });
-  // Keep last 1000 cmd log entries
   if (db.cmdlog.length > 1000) db.cmdlog = db.cmdlog.slice(-1000);
   save();
 }
@@ -310,6 +299,21 @@ const commands = [
       .addUserOption(o=>o.setName('user').setDescription('User to check').setRequired(true)))
     .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
 
+  // ── SET APP LINK ──
+  new SlashCommandBuilder().setName('setapplink').setDescription('Set the link for an application category')
+    .addStringOption(o=>o.setName('category').setDescription('Category to set the link for').setRequired(true)
+      .addChoices(
+        {name:'Staff Application',value:'staff'},
+        {name:'Media Team Application',value:'media'},
+        {name:'Discord Ban Appeal',value:'discord_appeal'},
+        {name:'In-Game Appeal',value:'ingame_appeal'}
+      ))
+    .addStringOption(o=>o.setName('link').setDescription('The URL for this category').setRequired(true))
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
+
+  new SlashCommandBuilder().setName('viewapplinks').setDescription('View all current application links')
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
+
   new SlashCommandBuilder().setName('ticket').setDescription('Ticket system')
     .addSubcommand(s=>s.setName('setup').setDescription('Configure tickets')
       .addChannelOption(o=>o.setName('category').setDescription('Category for ticket channels').setRequired(true))
@@ -419,7 +423,6 @@ client.on('messageCreate', async msg => {
 
 client.on('guildMemberAdd', async member => {
   const s=gs(member.guild.id);
-  // Block blacklisted users on join
   if (db.blacklist[member.guild.id]?.[member.id]) {
     const entry = db.blacklist[member.guild.id][member.id];
     await member.ban({reason:`Blacklisted: ${entry.reason}`}).catch(()=>{});
@@ -454,7 +457,6 @@ client.on('interactionCreate', async interaction => {
   if (!hasPerm(member,commandName)) return interaction.editReply('❌ You do not have permission to use this command.');
 
   try {
-    // ── BAN ──
     if (commandName==='ban') {
       const user=options.getUser('user',true), reason=options.getString('reason')||'No reason',
             delDays=options.getInteger('delete_days')??0, ms=parseTime(options.getString('duration'));
@@ -617,7 +619,6 @@ client.on('interactionCreate', async interaction => {
       const user=options.getUser('user',true), msg=options.getString('message',true);
       try {
         await user.send({embeds:[new EmbedBuilder().setColor(0x8844FF).setTitle(`📨 Message from ${guild.name}`).setDescription(msg).setFooter({text:`Sent by ${member.user.tag}`}).setTimestamp()]});
-        // Store DM message content in the log
         logAction(guild.id,'DM',member.id,user.id,msg,{targetTag:user.tag,modTag:member.user.tag,dmMessage:msg},interaction);
         logCmd(interaction,'dm',{target:user.tag,targetId:user.id,message:msg});
         await sendLog(guild,modEmbed('DM',member.user,user,msg));
@@ -671,12 +672,10 @@ client.on('interactionCreate', async interaction => {
     else if (commandName==='blacklist') {
       const sub=options.getSubcommand();
       if (!db.blacklist[guild.id]) db.blacklist[guild.id]={};
-
       if (sub==='add') {
         const user=options.getUser('user',true), reason=options.getString('reason',true);
         db.blacklist[guild.id][user.id]={ userId:user.id, userTag:user.tag, reason, addedBy:member.id, addedByTag:member.user.tag, timestamp:Date.now() };
         save();
-        // Try to ban them immediately if they're in the server
         const t=await guild.members.fetch(user.id).catch(()=>null);
         if (t) await t.ban({reason:`Blacklisted: ${reason}`}).catch(()=>{});
         logAction(guild.id,'BLACKLIST_ADD',member.id,user.id,reason,{targetTag:user.tag,modTag:member.user.tag},interaction);
@@ -719,6 +718,30 @@ client.on('interactionCreate', async interaction => {
       }
     }
 
+    // ── SET APP LINK ──
+    else if (commandName==='setapplink') {
+      const category=options.getString('category',true);
+      const link=options.getString('link',true);
+      const s=gs(guild.id);
+      if (!s.appLinks) s.appLinks={};
+      s.appLinks[category]=link;
+      save();
+      const labels={staff:'Staff Application',media:'Media Team Application',discord_appeal:'Discord Ban Appeal',ingame_appeal:'In-Game Appeal'};
+      logCmd(interaction,'setapplink',{category,link});
+      await interaction.editReply(`✅ Link for **${labels[category]}** set to:\n${link}`);
+    }
+
+    // ── VIEW APP LINKS ──
+    else if (commandName==='viewapplinks') {
+      const s=gs(guild.id);
+      const links=s.appLinks||{};
+      const labels={staff:'🛡️ Staff Application',media:'🎥 Media Team Application',discord_appeal:'⚖️ Discord Ban Appeal',ingame_appeal:'🎮 In-Game Appeal'};
+      const e=new EmbedBuilder().setColor(0xE67E22).setTitle('📋 Application Links')
+        .addFields(Object.entries(labels).map(([k,v])=>({name:v,value:links[k]?`[Click here](${links[k]})`:'Not set',inline:false})))
+        .setTimestamp();
+      await interaction.editReply({embeds:[e]});
+    }
+
     else if (commandName==='automod') {
       const sub=options.getSubcommand(), s=gs(guild.id);
       if (sub==='status') {
@@ -728,14 +751,14 @@ client.on('interactionCreate', async interaction => {
       } else if (sub==='set') {
         const feat=options.getString('feature',true), en=options.getBoolean('enabled',true);
         s.automod[feat]=en; save();
-        logCmd(interaction,`automod set`,{feature:feat,enabled:en});
+        logCmd(interaction,'automod set',{feature:feat,enabled:en});
         await interaction.editReply(`✅ **${feat}** is now **${en?'on':'off'}**.`);
       } else if (sub==='badword') {
         const action=options.getString('action',true), word=options.getString('word',true).toLowerCase();
         if (action==='add'&&!s.badWordList.includes(word)) s.badWordList.push(word);
         else if (action==='remove') s.badWordList=s.badWordList.filter(w=>w!==word);
         save();
-        logCmd(interaction,`automod badword`,{action,word});
+        logCmd(interaction,'automod badword',{action,word});
         await interaction.editReply(`✅ **"${word}"** ${action==='add'?'added':'removed'}.`);
       }
     }
@@ -903,14 +926,24 @@ async function closeTicket(interaction) {
 
 async function handleApplication(interaction) {
   await interaction.deferReply({ephemeral:true});
-  const info={
-    staff:{label:'Staff Application',text:'To apply for Staff, please fill out the application form linked by a staff member, or open a ticket.'},
-    media:{label:'Media Team Application',text:'To apply for the Media Team, open a ticket with your portfolio and examples of your work.'},
-    discord_appeal:{label:'Discord Ban Appeal',text:'To appeal a Discord ban, open a ticket with your case details and the reason for your ban.'},
-    ingame_appeal:{label:'In-Game Appeal',text:'To appeal an in-game moderation action, open a ticket with full details of the incident.'},
+  const s=gs(interaction.guild.id);
+  const links=s.appLinks||{};
+  const labels={
+    staff:'Staff Application',
+    media:'Media Team Application',
+    discord_appeal:'Discord Ban Appeal',
+    ingame_appeal:'In-Game Appeal',
   };
-  const v=info[interaction.values[0]];
-  await interaction.editReply({embeds:[new EmbedBuilder().setColor(0xE67E22).setTitle(`📋 ${v.label}`).setDescription(v.text).setFooter({text:'Contact a staff member if you need further help'}).setTimestamp()]});
+  const val=interaction.values[0];
+  const label=labels[val];
+  const link=links[val];
+  const embed=new EmbedBuilder().setColor(0xE67E22).setTitle(`📋 ${label}`)
+    .setDescription(link
+      ? `Click the link below to proceed with your ${label}:\n\n**[Click Here to Open](${link})**\n\n${link}`
+      : 'No link has been set for this category yet. Please contact a staff member or open a ticket.')
+    .setFooter({text:'Contact a staff member if you need further help'})
+    .setTimestamp();
+  await interaction.editReply({embeds:[embed]});
 }
 
 // ─────────────────────────────────
@@ -930,7 +963,7 @@ client.once('ready', async () => {
 function startAPI() {
   const app=express();
   app.use(cors({ origin: '*' }));
-  const KEY=process.env.DASHBOARD_API_KEY||'changeme';
+  app.use(express.json());
   app.use((req,res,next)=>{ next(); });
 
   app.get('/api/guilds',(_,res)=>res.json(client.guilds.cache.map(g=>({id:g.id,name:g.name,memberCount:g.memberCount,icon:g.iconURL()}))));
@@ -942,7 +975,6 @@ function startAPI() {
   });
   app.get('/api/guilds/:id/modlog',(req,res)=>res.json((db.modlog||[]).filter(l=>l.guildId===req.params.id).slice(-500).reverse()));
   app.get('/api/guilds/:id/cmdlog',(req,res)=>res.json((db.cmdlog||[]).filter(l=>l.guildId===req.params.id).slice(-500).reverse()));
-  // Global cmdlog (all servers) for super-admin view
   app.get('/api/cmdlog/all',(_,res)=>res.json((db.cmdlog||[]).slice(-500).reverse()));
   app.get('/api/guilds/:id/warns',(req,res)=>res.json(db.warns[req.params.id]||{}));
   app.delete('/api/guilds/:g/warns/:u/:w',(req,res)=>{ const {g,u,w}=req.params; const warn=db.warns[g]?.[u]?.find(x=>x.id===w); if(warn){warn.removed=true;save();return res.json({success:true});} res.status(404).json({error:'Not found'}); });
